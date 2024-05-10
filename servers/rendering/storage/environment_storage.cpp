@@ -281,6 +281,7 @@ void RendererEnvironmentStorage::environment_set_volumetric_fog(RID p_env, bool 
 #ifdef DEBUG_ENABLED
 	if (OS::get_singleton()->get_current_rendering_method() != "forward_plus" && p_enable) {
 		WARN_PRINT_ONCE_ED("Volumetric fog can only be enabled when using the Forward+ rendering backend.");
+		WARN_PRINT_ONCE_ED("TODO: implement");
 	}
 #endif
 	env->volumetric_fog_enabled = p_enable;
