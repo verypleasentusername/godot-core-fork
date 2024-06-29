@@ -700,7 +700,7 @@ LightmapGI::BakeError LightmapGI::bake(Node *p_from_node, String p_image_data_pa
 	}
 
 	Ref<Lightmapper> lightmapper = Lightmapper::create();
-	ERR_FAIL_COND_V(lightmapper.is_null(), BAKE_ERROR_NO_LIGHTMAPPER);
+	ERR_FAIL_COND_V(lightmapper.is_null(), BAKE_ERROR_NO_LIGHTMAPPER);	
 
 	BakeStepUD bsud;
 	bsud.func = p_bake_step;
@@ -752,7 +752,7 @@ LightmapGI::BakeError LightmapGI::bake(Node *p_from_node, String p_image_data_pa
 			}
 			TypedArray<Image> images = RS::get_singleton()->bake_render_uv2(mf.mesh->get_rid(), overrides, lightmap_size);
 
-			ERR_FAIL_COND_V(images.is_empty(), BAKE_ERROR_CANT_CREATE_IMAGE);
+			//ERR_FAIL_COND_V(images.is_empty(), BAKE_ERROR_CANT_CREATE_IMAGE);
 
 			Ref<Image> albedo = images[RS::BAKE_CHANNEL_ALBEDO_ALPHA];
 			Ref<Image> orm = images[RS::BAKE_CHANNEL_ORM];
@@ -1392,6 +1392,15 @@ AABB LightmapGI::get_aabb() const {
 	return AABB();
 }
 
+void LightmapGI::set_use_OpenGL(bool p_enable){
+	use_OpenGL = p_enable;
+	notify_property_list_changed();
+}
+
+bool LightmapGI::is_using_OpenGL() const {
+	return use_OpenGL;
+}
+
 void LightmapGI::set_use_denoiser(bool p_enable) {
 	use_denoiser = p_enable;
 	notify_property_list_changed();
@@ -1579,6 +1588,9 @@ void LightmapGI::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_max_texture_size", "max_texture_size"), &LightmapGI::set_max_texture_size);
 	ClassDB::bind_method(D_METHOD("get_max_texture_size"), &LightmapGI::get_max_texture_size);
 
+	ClassDB::bind_method(D_METHOD("set_OpenGL_on_lightmapper", "Lightmapper_on_OpenGL"), &LightmapGI::set_use_OpenGL);
+	ClassDB::bind_method(D_METHOD("get_OpenGL_on_lightmapper"), &LightmapGI::is_using_OpenGL);
+
 	ClassDB::bind_method(D_METHOD("set_use_denoiser", "use_denoiser"), &LightmapGI::set_use_denoiser);
 	ClassDB::bind_method(D_METHOD("is_using_denoiser"), &LightmapGI::is_using_denoiser);
 
@@ -1607,6 +1619,7 @@ void LightmapGI::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "use_texture_for_bounces"), "set_use_texture_for_bounces", "is_using_texture_for_bounces");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "interior"), "set_interior", "is_interior");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "use_denoiser"), "set_use_denoiser", "is_using_denoiser");
+	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "Lightmapper_on_OpenGL"), "set_OpenGL_on_lightmapper", "get_OpenGL_on_lightmapper");
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "denoiser_strength", PROPERTY_HINT_RANGE, "0.001,0.2,0.001,or_greater"), "set_denoiser_strength", "get_denoiser_strength");
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "bias", PROPERTY_HINT_RANGE, "0.00001,0.1,0.00001,or_greater"), "set_bias", "get_bias");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "max_texture_size", PROPERTY_HINT_RANGE, "2048,16384,1"), "set_max_texture_size", "get_max_texture_size");

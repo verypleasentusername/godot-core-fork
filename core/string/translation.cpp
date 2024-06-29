@@ -115,7 +115,7 @@ StringName Translation::get_message(const StringName &p_src_text, const StringNa
 	if (p_context != StringName()) {
 		WARN_PRINT("Translation class doesn't handle context. Using context in get_message() on a Translation instance is probably a mistake. \nUse a derived Translation class that handles context, such as TranslationPO class");
 	}
-
+	//не переводит если не находит похожего сообщения
 	HashMap<StringName, StringName>::ConstIterator E = translation_map.find(p_src_text);
 	if (!E) {
 		return StringName();

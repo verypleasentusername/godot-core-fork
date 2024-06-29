@@ -153,6 +153,7 @@ public:
 
 private:
 	BakeQuality bake_quality = BAKE_QUALITY_MEDIUM;
+	bool use_OpenGL = false;
 	bool use_denoiser = true;
 	float denoiser_strength = 0.1f;
 	int bounces = 3;
@@ -247,6 +248,9 @@ public:
 
 	void set_bake_quality(BakeQuality p_quality);
 	BakeQuality get_bake_quality() const;
+
+	void set_use_OpenGL(bool p_enable);
+	bool is_using_OpenGL() const;
 
 	void set_use_denoiser(bool p_enable);
 	bool is_using_denoiser() const;

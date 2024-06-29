@@ -381,7 +381,7 @@ void ProjectDialog::_text_changed(const String &p_text) {
 	_test_path();
 
 	if (p_text.strip_edges().is_empty()) {
-		_set_message(TTR("It would be a good idea to name your project."), MESSAGE_ERROR);
+		_set_message(TTR("It would be a sick idea to name your project."), MESSAGE_ERROR);
 	}
 }
 
